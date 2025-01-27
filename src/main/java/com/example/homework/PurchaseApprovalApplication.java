@@ -1,4 +1,4 @@
-package com.example.homework.purchaseapproval;
+package com.example.homework;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
