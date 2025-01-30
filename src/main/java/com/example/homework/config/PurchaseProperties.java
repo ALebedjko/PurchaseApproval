@@ -13,14 +13,9 @@ import java.math.BigDecimal;
 @ConfigurationProperties(prefix = "purchase")
 public class PurchaseProperties {
 
-    private BigDecimal minAmount;
-    private BigDecimal maxAmount;
-    private int minPeriod;
-    private int maxPeriod;
-
-//    private BigDecimal minAmount = BigDecimal.valueOf(200);
-//    private BigDecimal maxAmount = BigDecimal.valueOf(5000);
-//    private int minPeriod = 6;
-//    private int maxPeriod = 24;
+    private BigDecimal minAmount = BigDecimal.valueOf(200);
+    private BigDecimal maxAmount = BigDecimal.valueOf(5000);
+    private int minPeriod = 6;
+    private int maxPeriod = 24;
 
 }
