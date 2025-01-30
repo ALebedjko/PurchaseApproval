@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import static java.math.BigDecimal.*;
-import static java.math.BigDecimal.ZERO;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +25,9 @@ public class PurchaseService {
 
     private static final Logger logger = LoggerFactory.getLogger(PurchaseService.class);
 
-
     public ApprovalDecision findMaxApprovedAmount(String personalId, BigDecimal requestedAmount, int initialPaymentPeriod) {
         if (requestedAmount.compareTo(purchaseProperties.getMinAmount()) < 0) {
-               logFinalDecision(false, ZERO);
+            logFinalDecision(false, ZERO);
             return ApprovalDecision.reject();
         }
 
@@ -49,7 +47,7 @@ public class PurchaseService {
         logger.info("Starting Approval Process...");
         logApprovalDetails(personalId, requestedAmount, initialPaymentPeriod, financialCapacityFactor);
 
-        //  try increasing the period for the requested amount
+        // Try increasing the period for the requested amount
         for (int period = initialPaymentPeriod; period <= purchaseProperties.getMaxPeriod(); period++) {
             BigDecimal approvalScore = calculateApprovalScore(financialCapacityFactor, currentAmount, period);
 
@@ -59,8 +57,9 @@ public class PurchaseService {
                 maxApprovedAmount = currentAmount;
                 selectedPeriod = period;
                 foundApproval = true;
+
                 logApprovalSuccess(maxApprovedAmount, selectedPeriod);
-                break;  // Stop once we find an approval
+                break;
             }
         }
 
@@ -125,15 +124,15 @@ public class PurchaseService {
     }
 
     private void logApprovalAttempt(BigDecimal amount, int period, BigDecimal score) {
-        logger.info("Trying Amount: {} | Period: {} | Calculated Approval Score: {}", amount, period, score);
+        logger.debug("Trying Amount: {} | Period: {} | Calculated Approval Score: {}", amount, period, score);
     }
 
     private void logApprovalSuccess(BigDecimal amount, int period) {
-        logger.info("APPROVED: Amount = {} | Period = {}", amount, period);
+        logger.debug("APPROVED: Amount = {} | Period = {}", amount, period);
     }
 
     private void logReductionAttempt(BigDecimal amount) {
-        logger.info("NOT APPROVED: Reducing Amount by 100 to {}", amount.subtract(REDUCTION_STEP));
+        logger.debug("NOT APPROVED: Reducing Amount by 100 to {}", amount.subtract(REDUCTION_STEP));
     }
 
     private void logFinalDecision(boolean approved, BigDecimal amount) {
@@ -149,13 +148,13 @@ public class PurchaseService {
             BigDecimal newAmount = approvedAmount.add(APPROVED_AMOUNT_INCREMENT);
             BigDecimal approvalScore = calculateApprovalScore(financialFactor, newAmount, period);
 
-            logger.info("Trying to increase amount to {} | Approval Score: {}", newAmount, approvalScore);
+            logger.debug("Trying to increase amount to {} | Approval Score: {}", newAmount, approvalScore);
 
             if (approvalScore.compareTo(APPROVAL_THRESHOLD) >= 0) {
                 approvedAmount = newAmount;
-                logger.info("Increase successful! New approved amount: {}", approvedAmount);
+                logger.debug("Increase successful! New approved amount: {}", approvedAmount);
             } else {
-                logger.info("Increase failed. Cannot approve amount: {}", newAmount);
+                logger.debug("Increase failed. Cannot approve amount: {}", newAmount);
                 break;
             }
         }
