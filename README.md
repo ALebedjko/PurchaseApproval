@@ -121,10 +121,25 @@ npm install axios
 
 ---
 
-## Future Enhancements
-- Add **validation** for invalid input fields.
-- Implement **loading indicators** on submit.
-- Improve **error handling** for backend failures.
+## Possible future Enhancements
+### 1. Persistent Storage with ORM
+- Introduce a data model with entities such as Customer, Purchase, and PurchaseApplication.
+- Store purchase application results using an ORM framework to track customer purchases and applications.
+- Implement database migrations and data consistency checks.
+
+### 2. Security and Authentication
+- Implement user authentication and client registration.
+- Restrict access based on user roles (e.g., customers vs. operators).
+
+### 3. Internal Back Office for Operators
+- Develop an admin panel where operators can review purchase applications.
+- Implement role-based access control.
+- Add approval and rejection workflows for manual operator review.
+
+### 4. Frontend Features
+- Improve validation for invalid input fields.
+- Improve error handling for backend failures.
+- Enhance UI with user-friendly feedback and interactive components.
 
 ---
 
